@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p 8889"
   },
   "dependencies": {
     "@ant-design/compatible": "^1.0.8",

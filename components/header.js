@@ -15,6 +15,15 @@ import axios from "axios";
 import servicePath from "../config/apiUrl";
 import { useRouter } from "next/router";
 
+// 图标 DIY 对象
+const LOGO_LIST = {
+  'diy-js': '/imgs/header/JavaScript.png',
+  'diy-react': '/imgs/header/React.png',
+  'diy-vue': '/imgs/header/Vue.png',
+  'diy-next': '/imgs/header/Next.png',
+  'diy-three': '/imgs/header/three.jpg',
+  'diy-uni': '/imgs/header/U.png',
+}
 const Header = ({ setCrrentNav, cRef }) => {
   let router = useRouter();
   const [navArray, setNavArray] = useState([]);
@@ -73,11 +82,14 @@ const Header = ({ setCrrentNav, cRef }) => {
             {navArray.map((item) => {
               return (
                 <Menu.Item key={item.id}>
-                  {/* 动态展示icon */}
-                  <LegacyIcon
-                    type={item.icon}
-                    className="header-icon"
-                  ></LegacyIcon>
+                  {item.icon.includes("diy-") ? (
+                    <img src={LOGO_LIST[item.icon]} className="header-icon-diy" />
+                  ) : (
+                    <LegacyIcon
+                      type={item.icon}
+                      className="header-icon"
+                    ></LegacyIcon>
+                  )}
                   {item.typeName}
                 </Menu.Item>
               );
