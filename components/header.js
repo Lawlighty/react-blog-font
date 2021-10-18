@@ -9,7 +9,7 @@ import {
   SmileOutlined,
 } from "@ant-design/icons";
 
-import { Row, Col, Menu } from "antd";
+import { Row, Col, Menu, Affix } from "antd";
 import Router from "next/router";
 import Link from "next/link";
 import axios from "axios";
@@ -28,6 +28,7 @@ const LOGO_LIST = {
 const Header = ({ setCrrentNav, cRef }) => {
   let router = useRouter();
   const [navArray, setNavArray] = useState([]);
+  const [top, setTop] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,16 +36,16 @@ const Header = ({ setCrrentNav, cRef }) => {
         setNavArray(res.data.data);
         return res.data.data;
       });
-      setCrrentNav && getCrrentNav(result);
+      // setCrrentNav && getCrrentNav(result);
       setNavArray(result);
     };
     fetchData();
   }, []);
-  useEffect(() => {
-    if (navArray.length && setCrrentNav) {
-      getCrrentNav();
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   if (navArray.length && setCrrentNav) {
+  //     getCrrentNav();
+  //   }
+  // }, [router]);
 
   const getCrrentNav = (navs) => {
     let cnavs = navs || navArray; 
@@ -61,51 +62,53 @@ const Header = ({ setCrrentNav, cRef }) => {
     }
   };
   return (
-    <div className="header">
-      {/* 居中显示 改行 */}
-      <Row type="flex" justify="center">
-        {/* 长 */}
-        <Col xs={24} sm={24} md={10} lg={13} xl={10}>
-          <span className="header-logo">
-            <Link href={{ pathname: "/" }}>
-              <a> Lawlighty</a>
-            </Link>
-          </span>
-          <span className="header-txt">喜欢kiyo,但是没有kiyo酱?</span>
-        </Col>
-        {/* 短 */}
-        <Col xs={0} sm={0} md={14} lg={10} xl={12}>
-          <Menu mode="horizontal" onClick={handleClick}>
-            <Menu.Item key="0">
-              <HomeOutlined className="header-icon" />
-              首页
-            </Menu.Item>
-            {navArray.map((item) => {
-              return (
-                <Menu.Item key={item.id}>
-                  {item.icon.includes("diy-") ? (
-                    <img
-                      src={LOGO_LIST[item.icon]}
-                      className="header-icon-diy"
-                    />
-                  ) : (
-                    <>
-                      {React.createElement(Icon[item.icon], {
-                        className: "header-icon-diy",
-                      })}
-                    </>
-                  )}
-                  {item.typeName}
-                </Menu.Item>
-              );
-            })}
-          </Menu>
-          <div>
-            
-          </div>
-        </Col>
-      </Row>
-    </div>
+    <Affix offsetTop={top}>
+      <div className="header">
+        {/* 居中显示 改行 */}
+        <Row type="flex" justify="center">
+          {/* 长 */}
+          <Col xs={20} sm={24} md={24} lg={10} xl={10}>
+            <div>
+              <span className="header-logo">
+                <Link href={{ pathname: "/" }}>
+                  <a> Lawlighty</a>
+                </Link>
+              </span>
+              <span className="header-txt">喜欢kiyo,但是没有kiyo酱?</span>
+            </div>
+          </Col>
+          {/* 短 */}
+          <Col xs={0} sm={0} md={0} lg={10} xl={10}>
+            <Menu mode="horizontal" onClick={handleClick}>
+              <Menu.Item key="0">
+                <HomeOutlined className="header-icon" />
+                首页
+              </Menu.Item>
+              {navArray.map((item) => {
+                return (
+                  <Menu.Item key={item.id}>
+                    {item.icon.includes("diy-") ? (
+                      <img
+                        src={LOGO_LIST[item.icon]}
+                        className="header-icon-diy"
+                      />
+                    ) : (
+                      <>
+                        {React.createElement(Icon[item.icon], {
+                          className: "header-icon-diy",
+                        })}
+                      </>
+                    )}
+                    {item.typeName}
+                  </Menu.Item>
+                );
+              })}
+            </Menu>
+            <div></div>
+          </Col>
+        </Row>
+      </div>
+    </Affix>
   );
 };
 
