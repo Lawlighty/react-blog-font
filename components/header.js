@@ -36,16 +36,16 @@ const Header = ({ setCrrentNav, cRef }) => {
         setNavArray(res.data.data);
         return res.data.data;
       });
-      // setCrrentNav && getCrrentNav(result);
+      setCrrentNav && getCrrentNav(result);
       setNavArray(result);
     };
     fetchData();
   }, []);
-  // useEffect(() => {
-  //   if (navArray.length && setCrrentNav) {
-  //     getCrrentNav();
-  //   }
-  // }, [router]);
+  useEffect(() => {
+    if (navArray.length && setCrrentNav) {
+      getCrrentNav();
+    }
+  }, [router]);
 
   const getCrrentNav = (navs) => {
     let cnavs = navs || navArray; 
@@ -74,6 +74,7 @@ const Header = ({ setCrrentNav, cRef }) => {
                   <a> Lawlighty</a>
                 </Link>
               </span>
+              {/* TODO: 改写为 后台输入 */}
               <span className="header-txt">喜欢kiyo,但是没有kiyo酱?</span>
             </div>
           </Col>

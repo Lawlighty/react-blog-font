@@ -31,7 +31,7 @@ export default function ArticleList({ articleListProps }) {
     <div className="page-wrapper">
       <Head>
         <title>Lawlighty的博客列表</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/l.svg.ico" />
       </Head>
 
       {/* 头部导航 */}

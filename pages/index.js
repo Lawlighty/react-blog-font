@@ -47,7 +47,8 @@ export default function Home({ myList }) {
     <div className="page-wrapper">
       <Head>
         <title>Lawlighty的博客首页</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/l.svg.ico" />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
       </Head>
 
       {/* 头部导航 */}

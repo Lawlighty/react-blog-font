@@ -65,7 +65,7 @@ export default function Detailed({ markdown }) {
     <div>
       <Head>
         <title>博客详细页</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/l.svg.ico" />
       </Head>
 
       {/* 头部导航 */}

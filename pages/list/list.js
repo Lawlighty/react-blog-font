@@ -40,7 +40,7 @@ export default function MyList() {
     <div>
       <Head>
         <title>博客列表页面</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/l.svg.ico" />
       </Head>
 
       {/* 头部导航 */}

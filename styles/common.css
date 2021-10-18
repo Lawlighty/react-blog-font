@@ -7,7 +7,7 @@ body{
   flex-direction: column;
 }
 main{
-  flex: 1;
+  margin-top: .5rem !important;
 }
 .comm-left{
   background-color: #FFF;
