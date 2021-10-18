@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useImperativeHandle, cRef } from "react";
 import "../styles/components/header.css";
 import { Icon as LegacyIcon } from "@ant-design/compatible";
+import * as Icon from "@ant-design/icons"
 
 import {
   HomeOutlined,
@@ -83,18 +84,25 @@ const Header = ({ setCrrentNav, cRef }) => {
               return (
                 <Menu.Item key={item.id}>
                   {item.icon.includes("diy-") ? (
-                    <img src={LOGO_LIST[item.icon]} className="header-icon-diy" />
+                    <img
+                      src={LOGO_LIST[item.icon]}
+                      className="header-icon-diy"
+                    />
                   ) : (
-                    <LegacyIcon
-                      type={item.icon}
-                      className="header-icon"
-                    ></LegacyIcon>
+                    <>
+                      {React.createElement(Icon[item.icon], {
+                        className: "header-icon-diy",
+                      })}
+                    </>
                   )}
                   {item.typeName}
                 </Menu.Item>
               );
             })}
           </Menu>
+          <div>
+            
+          </div>
         </Col>
       </Row>
     </div>
