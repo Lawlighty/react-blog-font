@@ -18,13 +18,17 @@ import { useRouter } from "next/router";
 
 // 图标 DIY 对象
 const LOGO_LIST = {
-  'diy-js': '/imgs/header/JavaScript.png',
-  'diy-react': '/imgs/header/React.png',
-  'diy-vue': '/imgs/header/Vue.png',
-  'diy-next': '/imgs/header/Next.png',
-  'diy-three': '/imgs/header/three.jpg',
-  'diy-uni': '/imgs/header/U.png',
-}
+  "diy-js": "/imgs/header/JavaScript.png",
+  "diy-react": "/imgs/header/React.png",
+  "diy-vue": "/imgs/header/Vue.png",
+  "diy-next": "/imgs/header/Next.png",
+  "diy-three": "/imgs/header/three.jpg",
+  "diy-uni": "/imgs/header/U.png",
+  "diy-daily": "/imgs/header/daily.png",
+  "diy-home": "/imgs/header/home.png",
+  "diy-life": "/imgs/header/life.png",
+  "diy-teach": "/imgs/header/teach.png",
+};
 const Header = ({ setCrrentNav, cRef }) => {
   let router = useRouter();
   const [navArray, setNavArray] = useState([]);
@@ -82,7 +86,8 @@ const Header = ({ setCrrentNav, cRef }) => {
           <Col xs={0} sm={0} md={0} lg={10} xl={10}>
             <Menu mode="horizontal" onClick={handleClick}>
               <Menu.Item key="0">
-                <HomeOutlined className="header-icon" />
+                {/* <HomeOutlined className="header-icon" /> */}
+                <img src={LOGO_LIST['diy-home']} className="header-icon-diy" />
                 首页
               </Menu.Item>
               {navArray.map((item) => {
