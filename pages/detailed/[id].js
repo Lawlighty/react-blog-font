@@ -154,22 +154,24 @@ export default function Detailed({ articleProps }) {
           </Col>
           <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
             <Affix offsetTop={5}>
-              {/* 站长介绍组件 */}
-              <Author></Author>
+              <div>
+                {/* 站长介绍组件 */}
+                <Author></Author>
 
-              {/* 文章目录 */}
-              <div className="detailed-nav comm-box">
-                <div className="nav-title">文章目录</div>
-                {/* <MarkNav
+                {/* 文章目录 */}
+                <div className="detailed-nav comm-box">
+                  <div className="nav-title">文章目录</div>
+                  {/* <MarkNav
                   className="article-menu"
                   source={articleProps.article_content}
                   ordered={false}
                 /> */}
-                <div className="toc-list">{tocify && tocify.render()}</div>
-              </div>
+                  <div className="toc-list">{tocify && tocify.render()}</div>
+                </div>
 
-              {/* 广告组件 */}
-              <Advert></Advert>
+                {/* 广告组件 */}
+                <Advert></Advert>
+              </div>
             </Affix>
           </Col>
         </Row>
@@ -196,27 +198,3 @@ Detailed.getInitialProps = async (context) => {
       articleProps: res || {},
     };
 }
-
-    // export async function getStaticPaths() {
-    //   // Return a list of possible value for id
-    // }
-
-    // export async function getStaticProps(context) {
-    //   console.log("context", context);
-    //   console.log("context.query.id", context.query.id);
-    //   let id = context.query.id;
-    //   const promise = new Promise((resolve) => {
-    //     axios("http://127.0.0.1:7001/default/getArticleById/" + id).then((res) => {
-    //     //   console.log(title);
-    //       resolve(res.data.data[0]);
-    //     });
-    //   });
-    //   let res = await promise;
-    //   console.log("getStaticProps", res);
-    //   return {
-    //     props: {
-    //       markdown: res,
-    //     },
-    //   };
-    // }
-
