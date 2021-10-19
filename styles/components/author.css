@@ -16,3 +16,12 @@
     margin-left: .5rem;
     margin-right: .5rem;
 }
+.code-preview{
+    color:#fff;
+}
+.code-preview-i{
+    margin-left: .1rem;
+}
+.code-preview-i:hover{
+    color: #2db7f5;
+}
