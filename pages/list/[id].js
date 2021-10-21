@@ -6,7 +6,7 @@ import Header from "../../components/header";
 import Author from "../../components/author";
 import Advert from "../../components/advert";
 import Footer from "../../components/footer";
-import { Row, Col, List, Breadcrumb } from "antd";
+import { Row, Col, List, Breadcrumb, Tag } from "antd";
 import {
   CalendarOutlined,
   FolderOutlined,
@@ -18,6 +18,7 @@ import * as moment from "moment";
 
 import servicePath from "../../config/apiUrl";
 import { useRouter } from "next/router";
+import { getTagColor } from "@/utils/utils";
 
 export default function ArticleList({ articleListProps }) {
   const [mylist, setMylist] = useState(articleListProps);
@@ -60,6 +61,16 @@ export default function ArticleList({ articleListProps }) {
                       <Link href={{ pathname: "/detailed/" + item.id }}>
                         <a>{item.title}</a>
                       </Link>
+                      {item?.tags?.length && (
+                        <Tag
+                          color={getTagColor(item.tags)}
+                          className="tag-item"
+                          key={item.tags}
+                          onClose={() => handleClose(item.tags)}
+                        >
+                          {item.tags}
+                        </Tag>
+                      )}
                     </div>
                     <div className="list-icon">
                       <span>

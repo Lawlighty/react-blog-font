@@ -7,7 +7,7 @@ import Author from '../components/author'
 import Advert from '../components/advert'
 import RightWindow from "../components/right-window";
 import Footer from "../components/footer";
-import {Row, Col, List} from 'antd'
+import { Row, Col, List, Tag } from "antd";
 import {
   CalendarOutlined,
   FolderOutlined,
@@ -23,6 +23,7 @@ import servicePath from "../config/apiUrl";
 import marked from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/monokai-sublime.css";
+import { getTagColor } from "@/utils/utils";
 
 export default function Home({ myList }) {
   const [mylist, setMylist] = useState(myList);
@@ -68,6 +69,17 @@ export default function Home({ myList }) {
                     <Link href={{ pathname: "/detailed/" + item.id }}>
                       <a>{item.title}</a>
                     </Link>
+                    {(item?.tags?.length) &&
+                    (
+                      <Tag
+                        color={getTagColor(item.tags)}
+                        className="tag-item"
+                        key={item.tags}
+                        onClose={() => handleClose(item.tags)}
+                      >
+                        {item.tags}
+                      </Tag>
+                    )}
                   </div>
                   <div className="list-icon">
                     <span>

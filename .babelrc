@@ -8,6 +8,18 @@
         "libraryName": "antd"
         // "style":"css"  // 引入css
       }
+    ],
+    [
+      "module-resolver",
+      {
+        "alias": {
+          // "@/server": "./server",
+          "@/components": "./components",
+          "@/pages": "./pages",
+          "@/public": "./public",
+          "@/utils": "./utils"
+        }
+      }
     ]
   ]
 }
