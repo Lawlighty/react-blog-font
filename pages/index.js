@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Header from '../components/header'
 import Author from '../components/author'
 import Advert from '../components/advert'
+import RightWindow from "../components/right-window";
 import Footer from "../components/footer";
 import {Row, Col, List} from 'antd'
 import {
@@ -98,6 +99,11 @@ export default function Home({ myList }) {
           </Col>
         </Row>
       </main>
+      <RightWindow
+        showFunc={true}
+        showMini={true}
+        showService={true}
+      ></RightWindow>
 
       <Footer></Footer>
     </div>

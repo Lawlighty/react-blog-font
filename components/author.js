@@ -43,7 +43,7 @@ const Author = () => {
       <div className="author-div comm-box">
         <div>
           {/* 头像 */}
-          <Avatar size={100} src={avatarUrl} />
+          <Avatar className="avatar" size={100} src={avatarUrl} />
           {/* 介绍 */}
           <div className="author-introduction">
             平平无奇Lawlighty,希望开开心心每一天.
