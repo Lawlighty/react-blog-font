@@ -153,7 +153,7 @@ export default function Detailed({ articleProps }) {
             </div>
           </Col>
           <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
-            <Affix offsetTop={5}>
+            <Affix offsetTop={60}>
               <div>
                 {/* 站长介绍组件 */}
                 <Author></Author>

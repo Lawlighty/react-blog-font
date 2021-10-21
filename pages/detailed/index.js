@@ -110,7 +110,7 @@ export default function Detailed({ markdown }) {
             </div>
           </Col>
           <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
-            <Affix offsetTop={5}>
+            <Affix offsetTop={50}>
               {/* 站长介绍组件 */}
               <Author></Author>
 
