@@ -29,6 +29,7 @@ const LOGO_LIST = {
   "diy-home": "/imgs/header/home.png",
   "diy-life": "/imgs/header/life.png",
   "diy-teach": "/imgs/header/teach.png",
+  "diy-css": "/imgs/header/css.png",
 };
 const Header = ({ setCrrentNav, cRef }) => {
   let router = useRouter();

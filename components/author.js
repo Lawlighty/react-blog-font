@@ -45,8 +45,8 @@ const Author = () => {
           {/* 头像 */}
           <Avatar className="avatar" size={100} src={avatarUrl} />
           {/* 介绍 */}
-          <div className="author-introduction">
-            平平无奇Lawlighty,希望开开心心每一天.
+          <div className="author-introduction typewriter">
+            <div className="text">平平无奇Lawlighty,希望开开心心每一天.</div>
           </div>
           <Divider>社交账号</Divider>
           <Popover

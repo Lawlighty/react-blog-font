@@ -31,3 +31,52 @@
 .code-preview-i:hover{
     color: #2db7f5;
 }
+
+.typewriter {
+    width: 250px;
+    margin: auto;
+}
+	
+.typewriter .text {
+    /* font-size: 40px; */
+    overflow: hidden;
+    border-right: 2px solid orange;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 2;
+    animation:typing 3.5s steps(40, end),blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    /* from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    } */
+    0% {
+        width: 0
+    }
+
+    50% {
+        width: 100%
+    }
+    100% {
+        width: 0
+    }
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: orange;
+    }
+}
+
+

@@ -3,6 +3,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Header from "../../components/header";
+import BaseBg from "@/components/base-bg";
 import Author from "../../components/author";
 import Advert from "../../components/advert";
 import Footer from "../../components/footer";
@@ -39,6 +40,7 @@ export default function ArticleList({ articleListProps }) {
       <Header cRef={headerRef} setCrrentNav={setCrrentNav}></Header>
 
       <main>
+        <BaseBg></BaseBg>
         <Row className="comm-main" type="flex" justify="center">
           <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
             <div>
