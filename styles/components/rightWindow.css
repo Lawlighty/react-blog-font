@@ -1,3 +1,6 @@
+.ant-back-top{
+    z-index: 9999;
+}
 .toTop{
     font-size: 40px;
     background: #fff;
@@ -6,6 +9,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 10px;
+    z-index: 9999;
 }
 .toTop:hover{
     color: #409eff;

@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import Header from '../components/header'
+import BaseBg from '../components/base-bg'
 import Author from '../components/author'
 import Advert from '../components/advert'
 import RightWindow from "../components/right-window";
@@ -57,6 +58,7 @@ export default function Home({ myList }) {
       <Header></Header>
 
       <main>
+        <BaseBg></BaseBg>
         <Row className="comm-main" type="flex" justify="center">
           <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
             <List
@@ -69,8 +71,7 @@ export default function Home({ myList }) {
                     <Link href={{ pathname: "/detailed/" + item.id }}>
                       <a>{item.title}</a>
                     </Link>
-                    {(item?.tags?.length) &&
-                    (
+                    {item?.tags?.length && (
                       <Tag
                         color={getTagColor(item.tags)}
                         className="tag-item"

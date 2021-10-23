@@ -5,6 +5,7 @@
     overflow: hidden;
     height: 3.2rem;
     border-bottom:1px solid #ccc;
+    z-index: 9999;
 }
 .header-logo{
     color:#1e90ff;
