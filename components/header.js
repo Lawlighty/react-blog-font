@@ -2,6 +2,7 @@ import React, { useState, useEffect, useImperativeHandle, cRef } from "react";
 import "../styles/components/header.css";
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 import * as Icon from "@ant-design/icons"
+import "hover.css/css/hover.css";
 
 import {
   HomeOutlined,
@@ -75,11 +76,13 @@ const Header = ({ setCrrentNav, cRef }) => {
             <div>
               <span className="header-logo">
                 <Link href={{ pathname: "/" }}>
-                  <a> Lawlighty</a>
+                  <a className="hvr-buzz-out"> Lawlighty</a>
                 </Link>
               </span>
               {/* TODO: 改写为 后台输入 */}
-              <span className="header-txt">喜欢kiyo,但是没有kiyo酱?</span>
+              <span className="header-txt hvr-underline-from-left">
+                喜欢kiyo,但是没有kiyo酱?
+              </span>
             </div>
           </Col>
           {/* 短 */}
@@ -87,7 +90,7 @@ const Header = ({ setCrrentNav, cRef }) => {
             <Menu mode="horizontal" onClick={handleClick}>
               <Menu.Item key="0">
                 {/* <HomeOutlined className="header-icon" /> */}
-                <img src={LOGO_LIST['diy-home']} className="header-icon-diy" />
+                <img src={LOGO_LIST["diy-home"]} className="header-icon-diy" />
                 首页
               </Menu.Item>
               {navArray.map((item) => {
