@@ -128,11 +128,12 @@ export default function Detailed({ articleProps }) {
 
                 <div className="list-icon center">
                   <span>
-                    <CalendarOutlined /> {article.title}
+                    <CalendarOutlined />
+                    {moment(article.add_time).format("YYYY/MM/DD hh:mm:ss")}
                   </span>
                   <span>
                     <FolderOutlined />
-                    {moment(article.add_time).format("YYYY/MM/DD hh:mm:ss")}
+                    {article.title}
                   </span>
                   <span>
                     <FireOutlined /> {article.view_count}人
