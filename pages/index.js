@@ -69,7 +69,7 @@ export default function Home({ myList }) {
                 <List.Item>
                   <div className="list-title">
                     <Link href={{ pathname: "/detailed/" + item.id }}>
-                      <a>{item.title}</a>
+                      <a className="hvr-skew-forward">{item.title}</a>
                     </Link>
                     {item?.tags?.length && (
                       <Tag
