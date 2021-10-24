@@ -8,6 +8,7 @@ import Author from '../components/author'
 import Advert from '../components/advert'
 import RightWindow from "../components/right-window";
 import Footer from "../components/footer";
+import LabelTag from "@/components/label-tag";
 import { Row, Col, List, Tag } from "antd";
 import {
   CalendarOutlined,
@@ -72,14 +73,7 @@ export default function Home({ myList }) {
                       <a className="hvr-skew-forward">{item.title}</a>
                     </Link>
                     {item?.tags?.length && (
-                      <Tag
-                        color={getTagColor(item.tags)}
-                        className="tag-item"
-                        key={item.tags}
-                        onClose={() => handleClose(item.tags)}
-                      >
-                        {item.tags}
-                      </Tag>
+                      <LabelTag tags={item.tags}></LabelTag>
                     )}
                   </div>
                   <div className="list-icon">
