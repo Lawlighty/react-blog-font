@@ -1,0 +1,28 @@
+.drop-wrap{
+    position: absolute;
+    right: 50px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+.drop-wrap-line{
+    width: 2px;
+    height: 80px;
+    background-color: #000;
+    background-image: linear-gradient(to bottom, #E94E65 20%, #15A892 40%, #A89215 60%, #1574A8 80%);
+    transition: height 1s ;
+}
+.drop-wrap-img{
+    width: 36px;
+    position: relative;
+    top: -6px;
+    transition: width 1s ;
+}
+.drop-wrap:hover > .drop-wrap-line{
+    height: 120px;
+}
+.drop-wrap-img-soup{
+    width: 100%;
+}

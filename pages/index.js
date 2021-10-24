@@ -9,7 +9,8 @@ import Advert from '../components/advert'
 import RightWindow from "../components/right-window";
 import Footer from "../components/footer";
 import LabelTag from "@/components/label-tag";
-import { Row, Col, List, Tag } from "antd";
+import BeautifulSoup from "@/components/beautiful-soup";
+import { Row, Col, List, Tag, Image } from "antd";
 import {
   CalendarOutlined,
   FolderOutlined,
@@ -118,6 +119,7 @@ export default function Home({ myList }) {
 }
 //  获取首页列表信息
 export async function getStaticProps() {
+  console.log('bbb')
     const promise = new Promise((resolve) => {
       axios(servicePath.getArticleList).then((res) => {
         resolve(res.data);

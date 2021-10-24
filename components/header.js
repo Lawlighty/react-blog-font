@@ -3,6 +3,7 @@ import "../styles/components/header.css";
 import { Icon as LegacyIcon } from "@ant-design/compatible";
 import * as Icon from "@ant-design/icons"
 import "hover.css/css/hover.css";
+import HangDrop from "@/components/hang-drop"
 
 import {
   HomeOutlined,
@@ -117,6 +118,7 @@ const Header = ({ setCrrentNav, cRef }) => {
             <div></div>
           </Col>
         </Row>
+        <HangDrop></HangDrop>
       </div>
     </Affix>
   );
