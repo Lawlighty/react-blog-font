@@ -18,6 +18,7 @@ import axios from "axios";
 import servicePath from "../config/apiUrl";
 import { useRouter } from "next/router";
 
+const BASE_TYPE_HEADER_URL = "/imgs/header/";
 // 图标 DIY 对象
 const LOGO_LIST = {
   "diy-js": "/imgs/header/JavaScript.png",
@@ -100,7 +101,7 @@ const Header = ({ setCrrentNav, cRef }) => {
                   <Menu.Item key={item.id}>
                     {item.icon.includes("diy-") ? (
                       <img
-                        src={LOGO_LIST[item.icon]}
+                        src={BASE_TYPE_HEADER_URL+item.icon}
                         className="header-icon-diy"
                       />
                     ) : (
