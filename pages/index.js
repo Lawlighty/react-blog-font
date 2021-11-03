@@ -118,17 +118,12 @@ export default function Home({ myList }) {
   );
 }
 //  获取首页列表信息
-export async function getStaticProps() {
-  console.log('bbb')
-    const promise = new Promise((resolve) => {
-      axios(servicePath.getArticleList).then((res) => {
-        resolve(res.data);
-      });
-    });
-  let res = await promise;
+export async function getServerSideProps() {
+  let  res = await axios(servicePath.getArticleList);
+  let data = res.data
   return {
     props: {
-        myList : res?.data|| [],
+        myList : data?.data || [],
     }
   };
 }

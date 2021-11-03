@@ -99,17 +99,15 @@ export default function ArticleList({ articleListProps }) {
     </div>
   );
 }
-
-ArticleList.getInitialProps = async (context) => {
-    let id = context.query.id;
-  const promise = new Promise((resolve) => {
-    axios(servicePath.getListById + id).then((res) => {
-      resolve(res.data);
-    });
-  });
-
-    let res = await promise;
+export async function getServerSideProps(context) {
+  let { id } = context.params;
+  let res = await axios(servicePath.getListById + id);
+  let data = res.data;
   return {
-    articleListProps: res.data || [],
+    props: {
+      articleListProps: data?.data || [],
+    },
   };
-};
+}
+
+

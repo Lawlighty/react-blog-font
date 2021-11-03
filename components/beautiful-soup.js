@@ -4,7 +4,7 @@
  * Author       : Lawlighty
  * Date         : 2021-10-24 12:39:29 +0800
  * LastEditors  : Lawlighty
- * LastEditTime : 2021-10-24 17:05:25 +0800
+ * LastEditTime : 2021-11-03 20:46:46 +0800
  * Description  : bing 每日一图, 像作为类似屏保的功能
  * FilePath     : \blog\components\beautiful-soup.js
  */
@@ -44,14 +44,12 @@ export default function BeautifulSoup(props) {
 
 
 export async function getStaticProps() {
-  console.log('aaaa')
   const promise = new Promise((resolve) => {
     axios(BASE_BING_IMG_URL).then((res) => {
       resolve(res.data);
     });
   });
   let res = await promise;
-  console.log("res", res);
   return {
     props: {
       myList: res?.data || [],

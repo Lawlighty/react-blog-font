@@ -123,7 +123,6 @@ export const getBannerSubItems = (data = [], limit = 0) => {
     acc[el._id] = i;
     return acc;
   }, {});
-  console.log("idMapping==>", idMapping);
   data.forEach((el) => {
     // 判断根节点
     if (!el.parentid || !data[idMapping[el.parentid]]) {

@@ -61,7 +61,7 @@ export default function Detailed({ articleProps }) {
     },
   });
 
-  let html = marked(articleProps.article_content);
+  let html = marked(articleProps?.article_content||'');
   // let html = marked(markdown3);
 
   return (
@@ -148,20 +148,13 @@ export default function Detailed({ articleProps }) {
     </div>
   );
 }
-
-//  获取首页列表信息
-
-Detailed.getInitialProps = async (context) => {
-    let id = context.query.id;
-    const promise = new Promise((resolve) => {
-        axios(servicePath.getArticleById + id).then((res) => {
-          resolve(res.data.data[0]);
-        });
-    });
-   
-    let res = await promise;
-    console.log("getStaticProps", res);
-    return {
-      articleProps: res || {},
-    };
+export async function getServerSideProps(context) {
+  let { id } = context.params;
+  let res = await axios(servicePath.getArticleById + id);
+  let data = res.data;
+  return {
+    props: {
+      articleProps: data?.data?.[0] || {},
+    },
+  };
 }
