@@ -23,18 +23,18 @@ export default function RightWindow({
                 alt=""
                 className="func_div_item_img"
               />
-              <div>小程序</div>
+              <div>微信</div>
 
               <div className="mini_code_div">
                 <img
                   className="mini_code_pic"
-                  src="/imgs/rightWindow/mini_code_pic.jpg"
+                  src="https://lawlighty-blog.oss-cn-hangzhou.aliyuncs.com/articles/wx-lawlighty.jpg"
                   alt=""
                 />
                 <div style={{ color: "#999" }}>
-                  关注小程序
+                  关注微信
                   <br />
-                  学习更健康
+                  天天向上
                 </div>
               </div>
             </div>

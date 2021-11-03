@@ -6,3 +6,9 @@
     margin-bottom: .2rem;
     overflow: hidden;
 }
+.hover-img{
+    transition: transform 1s;
+}
+.hover-img:hover{
+    transform: scale(1.5);
+}
