@@ -120,11 +120,12 @@ export default function Detailed({ articleProps }) {
             </div>
           </Col>
           <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
+            {/* 广告组件 */}
+            {/* 站长介绍组件 */}
+            <Author></Author>
+            <Advert></Advert>
             <Affix offsetTop={60}>
               <div>
-                {/* 站长介绍组件 */}
-                <Author></Author>
-
                 {/* 文章目录 */}
                 <div className="detailed-nav comm-box">
                   <div className="nav-title">文章目录</div>
@@ -135,9 +136,6 @@ export default function Detailed({ articleProps }) {
                 /> */}
                   <div className="toc-list">{tocify && tocify.render()}</div>
                 </div>
-
-                {/* 广告组件 */}
-                <Advert></Advert>
               </div>
             </Affix>
           </Col>
