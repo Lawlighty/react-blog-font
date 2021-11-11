@@ -91,7 +91,7 @@ export default function Home({ myList }) {
                   </div>
                   <div
                     className="list-context"
-                    dangerouslySetInnerHTML={{ __html: marked(item.introduce) }}
+                    dangerouslySetInnerHTML={{ __html: marked(item?.introduce||'') }}
                   >
                     {/* {item.introduce} */}
                   </div>
