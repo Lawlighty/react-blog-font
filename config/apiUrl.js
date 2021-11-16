@@ -1,10 +1,14 @@
 let ipUrl = "http://127.0.0.1:7001/default/";
+let adminIpUrl = "http://127.0.0.1:3009";
 // let ipUrl = "http://47.96.105.70:7001/default/";
 
 let servicePath = {
   getArticleList: ipUrl + "getArticleList", //  首页文章列表接口
   getArticleById: ipUrl + "getArticleById/", // 文章详细页内容接口 ,需要接收参数
-  getTypeInfo: ipUrl + "getTypeInfo/", // 文章详细页内容接口 ,需要接收参数
+  getTypeInfo: ipUrl + "getTypeInfo/", // 导航栏类别
   getListById: ipUrl + "getListById/", // 根据类别ID获得文章列表
+
+  // mongodb
+  getBannerTypeInfo: adminIpUrl + "banners",
 };
 export default servicePath;

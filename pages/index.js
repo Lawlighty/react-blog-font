@@ -47,7 +47,6 @@ export default function Home({ myList }) {
       return hljs.highlightAuto(code).value;
     },
   });
-
   return (
     <div className="page-wrapper">
       <Head>

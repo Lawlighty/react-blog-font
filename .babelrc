@@ -18,7 +18,9 @@
           "@/pages": "./pages",
           "@/public": "./public",
           "@/utils": "./utils",
-          "@/styles": "./styles"
+          "@/styles": "./styles",
+          "@/config": "./config",
+          "@/services": "./services"
         }
       }
     ]
