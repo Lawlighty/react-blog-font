@@ -17,7 +17,13 @@ import Link from "next/link";
 import axios from "axios";
 import servicePath from "../config/apiUrl";
 import { useRouter } from "next/router";
+import { _get_categories } from "@/services/categories";
 
+ const query = {
+   limit: 100,
+   page: 1,
+};
+ 
 const BASE_TYPE_HEADER_URL = "/imgs/header/";
 // 图标 DIY 对象
 const LOGO_LIST = {
@@ -46,6 +52,14 @@ const Header = ({ setCrrentNav, cRef }) => {
       });
       setCrrentNav && getCrrentNav(result);
       setNavArray(result);
+
+      await _get_categories(JSON.stringify(query)).then((data) => {
+        if (data.status === 200) {
+          console.log("_get_categories", data.data.data);
+          setNavArray(data.data.data);
+          setCrrentNav && getCrrentNav(result);
+        }
+      });
     };
     fetchData();
   }, []);
@@ -57,7 +71,7 @@ const Header = ({ setCrrentNav, cRef }) => {
 
   const getCrrentNav = (navs) => {
     let cnavs = navs || navArray; 
-    let nav = cnavs.find((item) => item.id === router.query.id * 1);
+    let nav = cnavs.find((item) => item._id === router.query._id);
     setCrrentNav(nav || {});
   };
 
@@ -97,26 +111,16 @@ const Header = ({ setCrrentNav, cRef }) => {
                 首页
               </Menu.Item>
               {navArray.map((item) => {
-                return (
-                  <Menu.Item key={item.id}>
-                    {item.icon.includes("diy-") ? (
-                      <img
-                        src={BASE_TYPE_HEADER_URL+item.icon}
-                        className="header-icon-diy"
-                      />
-                    ) : (
-                      <>
-                        {React.createElement(Icon[item.icon], {
-                          className: "header-icon-diy",
-                        })}
-                      </>
-                    )}
-                    {item.typeName}
-                  </Menu.Item>
-                );
+                if (item.name != '首页') {
+                  return (
+                  <Menu.Item key={item._id}>
+                      <img src={item.icon} className="header-icon-diy" />
+                      {item.name}
+                    </Menu.Item>
+                  )
+                }
               })}
             </Menu>
-            <div></div>
           </Col>
         </Row>
         <HangDrop></HangDrop>
