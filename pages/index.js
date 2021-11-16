@@ -10,7 +10,7 @@ import RightWindow from "../components/right-window";
 import Footer from "../components/footer";
 import LabelTag from "@/components/label-tag";
 import BeautifulSoup from "@/components/beautiful-soup";
-import { Row, Col, List, Tag, Image } from "antd";
+import { Row, Col, List, Tag, Image, Pagination } from "antd";
 import {
   CalendarOutlined,
   FolderOutlined,
@@ -27,10 +27,42 @@ import marked from "marked";
 import hljs from "highlight.js";
 import "highlight.js/styles/monokai-sublime.css";
 import { getTagColor } from "@/utils/utils";
+import { _get_courses } from "@/services/courses";
+
+const initPaging = {
+  current: 1,
+  pageSize: 10,
+  //   total: courseListCount,
+};
 
 export default function Home({ myList }) {
   const [mylist, setMylist] = useState(myList);
+  const [pagination, setPagination] = useState(initPaging);
 
+    const getDocumentsList = async (nowpaginatio = {}) => {
+      const query = {
+        limit: nowpaginatio.pageSize || pagination.pageSize,
+        page: nowpaginatio.current || pagination.current,
+      };
+      await _get_courses(JSON.stringify(query)).then((data) => {
+        if (data.status === 200) {
+          const n_pagination = {
+            ...pagination,
+            current: data.data.page,
+            total: data.data.total,
+          };
+          setPagination({ ...n_pagination });
+          console.log("_get_courses", data.data.data);
+          setMylist(data.data.data);
+        }
+      });
+    };
+  
+   const onChangePage = (page) => {
+     const n_pagination = { ...pagination, current: page };
+     getDocumentsList(n_pagination);
+   };
+  
   const renderer = new marked.Renderer();
   marked.setOptions({
     renderer: renderer,
@@ -47,6 +79,10 @@ export default function Home({ myList }) {
       return hljs.highlightAuto(code).value;
     },
   });
+
+  useEffect(() => {
+    getDocumentsList({});
+  }, []);
   return (
     <div className="page-wrapper">
       <Head>
@@ -67,35 +103,57 @@ export default function Home({ myList }) {
               itemLayout="vertical"
               dataSource={mylist}
               renderItem={(item) => (
-                <List.Item>
+                <List.Item
+                  extra={
+                    <div className="cover-img-wrapper">
+                      <Link href={{ pathname: "/detailed/" + item._id }}>
+                        <a>
+                          <img
+                            width={250}
+                            alt="封面"
+                            src={item.cover}
+                            className="cover-img"
+                          />
+                        </a>
+                      </Link>
+                    </div>
+                  }
+                >
                   <div className="list-title">
-                    <Link href={{ pathname: "/detailed/" + item.id }}>
-                      <a className="hvr-skew-forward">{item.title}</a>
+                    <Link href={{ pathname: "/detailed/" + item._id }}>
+                      <a className="hvr-skew-forward">{item.name}</a>
                     </Link>
-                    {item?.tags?.length && (
-                      <LabelTag tags={item.tags}></LabelTag>
+                    {item?.category?.name && (
+                      <LabelTag tags={item.category?.name}></LabelTag>
                     )}
                   </div>
                   <div className="list-icon">
                     <span>
                       <CalendarOutlined />
-                      {moment(item.add_time).format("YYYY/MM/DD hh:mm:ss")}
+                      {moment(item.createdAt).format("YYYY/MM/DD hh:mm:ss")}
                     </span>
                     <span>
-                      <FolderOutlined /> {item.typeName}
+                      <FolderOutlined /> {item.episodes?.length ?? 0}
                     </span>
-                    <span>
-                      <FireOutlined /> {item.view_count}人
-                    </span>
+                    <span>{item.stick && <FireOutlined />}</span>
                   </div>
                   <div
                     className="list-context"
-                    dangerouslySetInnerHTML={{ __html: marked(item?.introduce||'') }}
+                    dangerouslySetInnerHTML={{
+                      __html: marked(item?.introduce || ""),
+                    }}
                   >
                     {/* {item.introduce} */}
                   </div>
                 </List.Item>
               )}
+            />
+            <Pagination
+              current={pagination.current}
+              total={pagination.total || 10}
+              onChange={onChangePage}
+              defaultPageSize={pagination.pageSize}
+              style={{ textAlign: "center", marginTop: 20 }}
             />
           </Col>
           <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
@@ -117,12 +175,12 @@ export default function Home({ myList }) {
   );
 }
 //  获取首页列表信息
-export async function getServerSideProps() {
-  let  res = await axios(servicePath.getArticleList);
-  let data = res.data
-  return {
-    props: {
-        myList : data?.data || [],
-    }
-  };
-}
+// export async function getServerSideProps() {
+//   let  res = await axios(servicePath.getArticleList);
+//   let data = res.data;
+//   return {
+//     props: {
+//         myList : data?.data || [],
+//     }
+//   };
+// }

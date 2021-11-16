@@ -56,3 +56,16 @@ code {
 
 }
 
+.cover-img-wrapper{
+    width: 250px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.cover-img{
+    transition: transform 1s;
+    
+}
+.cover-img:hover{
+    transform: scale(1.5);
+}
+
