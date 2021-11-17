@@ -8,27 +8,72 @@ import Author from "../../components/author";
 import Advert from "../../components/advert";
 import Footer from "../../components/footer";
 import LabelTag from "@/components/label-tag";
-import { Row, Col, List, Breadcrumb, Tag } from "antd";
+import { Row, Col, List, Breadcrumb, Tag, Pagination } from "antd";
 import {
   CalendarOutlined,
   FolderOutlined,
   FireOutlined,
 } from "@ant-design/icons";
 // import "../../styles/pages/index.css";
-import axios from "axios";
+
 import * as moment from "moment";
-
-import servicePath from "../../config/apiUrl";
 import { useRouter } from "next/router";
-import { getTagColor } from "@/utils/utils";
+import { _get_courses } from "@/services/courses";
 
-export default function ArticleList({ articleListProps }) {
-  const [mylist, setMylist] = useState(articleListProps);
+const initPaging = {
+  current: 1,
+  pageSize: 10,
+  //   total: courseListCount,
+};
+
+export default function CoursesList() {
+  const router = useRouter();
+  const [pagination, setPagination] = useState(initPaging);
+  const [mylist, setMylist] = useState([]);
   const [crrentNav, setCrrentNav] = useState([]);
   const headerRef = useRef(null);
-  useEffect(() => {
-    setMylist(articleListProps);
+
+  const getCoursesList = async (nowpaginatio = {}, category_id = "") => {
+    const query = {
+      limit: nowpaginatio.pageSize || pagination.pageSize,
+      page: nowpaginatio.current || pagination.current,
+      where: {
+        category: category_id,
+        // category: "6187bbb0f9a0c627f4627f40",
+      },
+    };
+    await _get_courses(JSON.stringify(query)).then((data) => {
+      if (data.status === 200) {
+        const n_pagination = {
+          ...pagination,
+          current: data.data.page,
+          total: data.data.total,
+        };
+        setPagination({ ...n_pagination });
+        setMylist(data.data.data);
+      }
     });
+  };
+
+  const onChangePage = (page) => {
+    const n_pagination = { ...pagination, current: page };
+    getCoursesList(n_pagination, router?.query?.id ?? "");
+  };
+  useEffect(() => {
+    if (router.query.id) {
+      const id = router.query.id;
+      getCoursesList({}, id);
+    }
+  }, [router]);
+
+  const courseOnClickHandel = (e, item) => {
+    if (item?.episodes?.length == 1) {
+      // 直接跳转到改课时详情
+      router.push(`/detailed/${item.episodes[0]._id}`);
+    } else {
+      router.push(`/course/${item._id}`);
+    }
+  };
 
   return (
     <div className="page-wrapper">
@@ -59,30 +104,62 @@ export default function ArticleList({ articleListProps }) {
                 itemLayout="vertical"
                 dataSource={mylist}
                 renderItem={(item) => (
-                  <List.Item>
+                  <List.Item
+                    extra={
+                      <div className="cover-img-wrapper">
+                        {/* <Link
+                      // href={{ pathname: "/course/" + item._id }}
+                      > */}
+                        <a
+                          onClick={(e) => {
+                            courseOnClickHandel(e, item);
+                          }}
+                        >
+                          <img
+                            width={250}
+                            alt="封面"
+                            src={item.cover}
+                            className="cover-img"
+                          />
+                        </a>
+                        {/* </Link> */}
+                      </div>
+                    }
+                  >
                     <div className="list-title">
-                      <Link href={{ pathname: "/detailed/" + item.id }}>
-                        <a className="hvr-skew-forward">{item.title}</a>
-                      </Link>
-                      {item?.tags?.length && (
-                        <LabelTag tags={item.tags}></LabelTag>
-                      )}
+                      {/* <Link href={{ pathname: "/detailed/" + item.id }}> */}
+                      <a
+                        className="hvr-skew-forward"
+                        onClick={(e) => {
+                          courseOnClickHandel(e, item);
+                        }}
+                      >
+                        {item.name}
+                      </a>
+                      {/* </Link> */}
                     </div>
                     <div className="list-icon">
                       <span>
                         <CalendarOutlined />
-                        {moment(item.add_time).format("YYYY/MM/DD hh:mm:ss")}
+                        {moment(item.createdAt).format("YYYY/MM/DD hh:mm:ss")}
                       </span>
                       <span>
-                        <FolderOutlined /> {item.typeName}
+                        <FolderOutlined /> {item?.category?.name ?? "未知"}
                       </span>
                       <span>
-                        <FireOutlined /> {item.view_count}人
+                        <FireOutlined />
                       </span>
                     </div>
                     <div className="list-context">{item.introduce}</div>
                   </List.Item>
                 )}
+              />
+              <Pagination
+                current={pagination.current}
+                total={pagination.total || 10}
+                onChange={onChangePage}
+                defaultPageSize={pagination.pageSize}
+                style={{ textAlign: "center", marginTop: 20 }}
               />
             </div>
           </Col>
@@ -99,15 +176,13 @@ export default function ArticleList({ articleListProps }) {
     </div>
   );
 }
-export async function getServerSideProps(context) {
-  let { id } = context.params;
-  let res = await axios(servicePath.getListById + id);
-  let data = res.data;
-  return {
-    props: {
-      articleListProps: data?.data || [],
-    },
-  };
-}
-
-
+// export async function getServerSideProps(context) {
+//   let { id } = context.params;
+//   let res = await axios(servicePath.getListById + id);
+//   let data = res.data;
+//   return {
+//     props: {
+//       articleListProps: data?.data || [],
+//     },
+//   };
+// }
