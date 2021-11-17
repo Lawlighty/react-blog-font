@@ -10,6 +10,9 @@ main{
   /* margin-top: .5rem !important; */
   min-height: calc(100vh - 100px);
 }
+.ant-list-empty-text{
+  min-height: 600px;
+}
 .comm-left{
   background-color: #FFF;
   padding:.3rem;

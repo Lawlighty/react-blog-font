@@ -8,7 +8,7 @@ import Author from "../../components/author";
 import Advert from "../../components/advert";
 import Footer from "../../components/footer";
 import MyLoading from "@/components/loading";
-import { Row, Col, List, Breadcrumb, Affix } from "antd";
+import { Row, Col, List, Breadcrumb, Affix,Skeleton } from "antd";
 import {
   CalendarOutlined,
   FolderOutlined,
@@ -39,6 +39,7 @@ import { _get_episode_detail } from "@/services/episodes";
 
 export default function Detailed() {
   const router = useRouter();
+    const [spinning, setSpinning] = useState(false);
   // markdown 内容测试
   const renderer = new marked.Renderer();
 
@@ -51,13 +52,13 @@ export default function Detailed() {
   const [article, setArticle] = useState({});
 
   const getEpisodesDetail = async (id = "") => {
-    setPagination(true);
+    setSpinning(true);
     await _get_episode_detail(id).then((data) => {
       if (data.status === 200) {
         setArticle(data.data);
       }
     });
-    setPagination(true);
+    setSpinning(false);
   };
 
   useEffect(() => {
@@ -96,9 +97,10 @@ export default function Detailed() {
 
       <main>
         <BaseBg></BaseBg>
-        {spinning ?
-          <MyLoading></MyLoading>
-          :
+        {/* {spinning ? (
+          // <MyLoading></MyLoading>
+          <Skeleton active /> */}
+        ) : (
           <Row className="comm-main" type="flex" justify="center">
             <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
               <div>
@@ -109,25 +111,29 @@ export default function Detailed() {
                       <a href="/">首页</a>
                     </Breadcrumb.Item>
                     <Breadcrumb.Item>详情</Breadcrumb.Item>
-                    <Breadcrumb.Item>{article?.name ?? ''}</Breadcrumb.Item>
+                    <Breadcrumb.Item>{article?.name ?? ""}</Breadcrumb.Item>
                   </Breadcrumb>
                 </div>
                 <div>
-                  <div className="detailed-title">{article?.name ?? ''}</div>
+                  <div className="detailed-title">{article?.name ?? ""}</div>
 
                   <div className="list-icon center">
                     <span>
                       <CalendarOutlined />
-                      {moment(article?.createdAt ?? '').format("YYYY/MM/DD hh:mm:ss")}
+                      {moment(article?.createdAt ?? "").format(
+                        "YYYY/MM/DD hh:mm:ss"
+                      )}
                     </span>
                     <span>
                       <HistoryOutlined />
-                      {moment(article?.updatedAt ?? "").format("YYYY/MM/DD hh:mm:ss")}
+                      {moment(article?.updatedAt ?? "").format(
+                        "YYYY/MM/DD hh:mm:ss"
+                      )}
                     </span>
-                    <span>
+                    {/* <span>
                       <FolderOutlined />
                       {article?.course?.name ?? "未知"}
-                    </span>
+                    </span> */}
                   </div>
 
                   {/* markdown 解析 */}
@@ -164,7 +170,8 @@ export default function Detailed() {
               </Affix>
             </Col>
           </Row>
-        }
+            )
+        {/* // } */}
       </main>
 
       <Footer></Footer>

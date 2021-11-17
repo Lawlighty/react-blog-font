@@ -46,18 +46,17 @@ const Header = ({ setCrrentNav, cRef }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios(servicePath.getTypeInfo).then((res) => {
-        setNavArray(res.data.data);
-        return res.data.data;
-      });
-      setCrrentNav && getCrrentNav(result);
-      setNavArray(result);
+      // const result = await axios(servicePath.getTypeInfo).then((res) => {
+      //   setNavArray(res.data.data);
+      //   return res.data.data;
+      // });
+      // setCrrentNav && getCrrentNav(result);
+      // setNavArray(result);
 
       await _get_categories(JSON.stringify(query)).then((data) => {
         if (data.status === 200) {
-          console.log("_get_categories", data.data.data);
           setNavArray(data.data.data);
-          setCrrentNav && getCrrentNav(result);
+          setCrrentNav && getCrrentNav(data.data.data);
         }
       });
     };
@@ -70,8 +69,8 @@ const Header = ({ setCrrentNav, cRef }) => {
   }, [router]);
 
   const getCrrentNav = (navs) => {
-    let cnavs = navs || navArray; 
-    let nav = cnavs.find((item) => item._id === router.query._id);
+    let cnavs = navs || navArray;
+    let nav = cnavs.find((item) => item._id === router.query.id);
     setCrrentNav(nav || {});
   };
 

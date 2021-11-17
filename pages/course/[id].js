@@ -39,7 +39,7 @@ export default function EpisodesList() {
 //   });
     
     const getEpisodesList = async (nowpaginatio = {}, course_id = '') => {
-        setPagination(true);
+        setSpinning(true);
         const query = {
           limit: nowpaginatio.pageSize || pagination.pageSize,
           page: nowpaginatio.current || pagination.current,
@@ -58,7 +58,7 @@ export default function EpisodesList() {
             setMylist(data.data.data);
           }
         });
-        setPagination(false);
+        setSpinning(false);
     };
 
     const onChangePage = (page) => {

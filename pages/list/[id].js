@@ -103,7 +103,7 @@ export default function CoursesList() {
                     <Breadcrumb.Item>
                       <a href="/">首页</a>
                     </Breadcrumb.Item>
-                    <Breadcrumb.Item>{crrentNav?.typeName || ""}</Breadcrumb.Item>
+                    <Breadcrumb.Item>{crrentNav?.name || ""}</Breadcrumb.Item>
                   </Breadcrumb>
                 </div>
 
