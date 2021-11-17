@@ -3,8 +3,8 @@ import { message } from "antd";
 import { reLogin } from "@/utils/utils";
 
 //  axios.defaults.baseURL = 'http://172.20.16.15:8070';
-export const BASE_UPLOAD_IMG_URL = "http://localhost:3009/upload";
-axios.defaults.baseURL = "http://localhost:3009";
+export const BASE_UPLOAD_IMG_URL = "http://47.96.105.70:3009/upload";
+axios.defaults.baseURL = "http://47.96.105.70:3009";
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=utf-8";
 axios.defaults.timeout = 10000;
 export const MethodType = {

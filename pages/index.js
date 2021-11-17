@@ -19,7 +19,7 @@ import {
 import '../styles/pages/index.css'
 import axios from 'axios'
 import * as moment from "moment";
-
+import { useRouter } from "next/router";
 import servicePath from "../config/apiUrl";
 
 // 支持Markdown的解析;
@@ -39,6 +39,7 @@ export default function Home({ myList }) {
   const [mylist, setMylist] = useState(myList);
   const [pagination, setPagination] = useState(initPaging);
 
+  const router = useRouter();
     const getDocumentsList = async (nowpaginatio = {}) => {
       const query = {
         limit: nowpaginatio.pageSize || pagination.pageSize,
@@ -83,6 +84,15 @@ export default function Home({ myList }) {
   useEffect(() => {
     getDocumentsList({});
   }, []);
+
+  const courseOnClickHandel = (e,item) => {
+    if (item?.episodes?.length == 1) {
+      // 直接跳转到改课时详情
+      router.push(`/detailed/${item.episodes[0]._id}`);
+    } else {
+      router.push(`/course/${item._id}`);
+    }
+  }
   return (
     <div className="page-wrapper">
       <Head>
@@ -106,23 +116,37 @@ export default function Home({ myList }) {
                 <List.Item
                   extra={
                     <div className="cover-img-wrapper">
-                      <Link href={{ pathname: "/detailed/" + item._id }}>
-                        <a>
-                          <img
-                            width={250}
-                            alt="封面"
-                            src={item.cover}
-                            className="cover-img"
-                          />
-                        </a>
-                      </Link>
+                      {/* <Link
+                      // href={{ pathname: "/course/" + item._id }}
+                      > */}
+                      <a
+                        onClick={(e) => {
+                          courseOnClickHandel(e, item);
+                        }}
+                      >
+                        <img
+                          width={250}
+                          alt="封面"
+                          src={item.cover}
+                          className="cover-img"
+                        />
+                      </a>
+                      {/* </Link> */}
                     </div>
                   }
                 >
                   <div className="list-title">
-                    <Link href={{ pathname: "/detailed/" + item._id }}>
-                      <a className="hvr-skew-forward">{item.name}</a>
-                    </Link>
+                    {/* <Link href={{ pathname: "/detailed/" + item._id }}> */}
+                    {/* <Link href={{ pathname: "/course/" + item._id }}> */}
+                      <a
+                        className="hvr-skew-forward"
+                        onClick={(e) => {
+                          courseOnClickHandel(e, item);
+                        }}
+                      >
+                        {item.name}
+                      </a>
+                    {/* </Link> */}
                     {item?.category?.name && (
                       <LabelTag tags={item.category?.name}></LabelTag>
                     )}
