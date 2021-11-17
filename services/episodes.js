@@ -5,7 +5,7 @@ export const _get_episode_list = async (query) => {
   return await request(`/episodes?query=${query}`, MethodType.GET);
 };
 export const _get_episode_detail = async (id) => {
-  return await request(`/api/episodes/${id}`, MethodType.GET);
+  return await request(`/episodes/${id}`, MethodType.GET);
 };
 
 

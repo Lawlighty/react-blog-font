@@ -99,7 +99,7 @@ export default function EpisodesList() {
                 renderItem={(item) => (
                   <List.Item>
                     <div className="list-title">
-                      <Link href={{ pathname: "/detailed/" + item.id }}>
+                      <Link href={{ pathname: "/detailed/" + item._id }}>
                         <a className="hvr-skew-forward">{item.name}</a>
                       </Link>
                     </div>

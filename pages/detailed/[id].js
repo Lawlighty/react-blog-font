@@ -11,7 +11,7 @@ import { Row, Col, List, Breadcrumb, Affix } from "antd";
 import {
   CalendarOutlined,
   FolderOutlined,
-  FireOutlined,
+  HistoryOutlined,
 } from "@ant-design/icons";
 // import ReactMarkdown from "react-markdown";
 
@@ -19,7 +19,7 @@ import MarkNav from "markdown-navbar";
 import "markdown-navbar/dist/navbar.css";
 import axios from "axios";
 import * as moment from "moment";
-
+import { useRouter } from "next/router";
 //  marked + highlight.js  替换 react-markdown
 import marked from 'marked'
 import hljs from "highlight.js";
@@ -34,8 +34,10 @@ import Tocify from "../../components/tocify.tsx";
 // });
 
 import servicePath from "../../config/apiUrl";
+import { _get_episode_detail } from "@/services/episodes";
 
-export default function Detailed({ articleProps }) {
+export default function Detailed() {
+  const router = useRouter();
   // markdown 内容测试
   const renderer = new marked.Renderer();
 
@@ -45,7 +47,22 @@ export default function Detailed({ articleProps }) {
     const anchor = tocify.add(text, level);
     return `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
   };
-  const [article, setArticle] = useState(articleProps);
+  const [article, setArticle] = useState({});
+
+  const getEpisodesDetail = async (id = "") => {
+    await _get_episode_detail(id).then((data) => {
+      if (data.status === 200) {
+        setArticle(data.data);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (router.query.id) {
+      const id = router.query.id;
+      getEpisodesDetail(id);
+    }
+  }, [router]);
 
   marked.setOptions({
     renderer: renderer,
@@ -61,7 +78,7 @@ export default function Detailed({ articleProps }) {
     },
   });
 
-  let html = marked(articleProps?.article_content||'');
+  let html = marked(article?.textfile ?? "");
   // let html = marked(markdown3);
 
   return (
@@ -85,24 +102,25 @@ export default function Detailed({ articleProps }) {
                   <Breadcrumb.Item>
                     <a href="/">首页</a>
                   </Breadcrumb.Item>
-                  <Breadcrumb.Item>视频列表</Breadcrumb.Item>
-                  <Breadcrumb.Item>{article.title}</Breadcrumb.Item>
+                  <Breadcrumb.Item>详情</Breadcrumb.Item>
+                  <Breadcrumb.Item>{article?.name??''}</Breadcrumb.Item>
                 </Breadcrumb>
               </div>
               <div>
-                <div className="detailed-title">{article.title}</div>
+                <div className="detailed-title">{article?.name??''}</div>
 
                 <div className="list-icon center">
                   <span>
                     <CalendarOutlined />
-                    {moment(article.add_time).format("YYYY/MM/DD hh:mm:ss")}
+                    {moment(article?.createdAt??'').format("YYYY/MM/DD hh:mm:ss")}
+                  </span>
+                  <span>
+                    <HistoryOutlined />
+                    {moment(article?.updatedAt??"").format("YYYY/MM/DD hh:mm:ss")}
                   </span>
                   <span>
                     <FolderOutlined />
-                    {article.title}
-                  </span>
-                  <span>
-                    <FireOutlined /> {article.view_count}人
+                    {article?.course?.name ?? "未知"}
                   </span>
                 </div>
 
@@ -146,13 +164,13 @@ export default function Detailed({ articleProps }) {
     </div>
   );
 }
-export async function getServerSideProps(context) {
-  let { id } = context.params;
-  let res = await axios(servicePath.getArticleById + id);
-  let data = res.data;
-  return {
-    props: {
-      articleProps: data?.data?.[0] || {},
-    },
-  };
-}
+// export async function getServerSideProps(context) {
+//   let { id } = context.params;
+//   let res = await axios(servicePath.getArticleById + id);
+//   let data = res.data;
+//   return {
+//     props: {
+//       articleProps: data?.data?.[0] || {},
+//     },
+//   };
+// }
