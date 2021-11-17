@@ -7,6 +7,7 @@ import BaseBg from "@/components/base-bg";
 import Author from "../../components/author";
 import Advert from "../../components/advert";
 import Footer from "../../components/footer";
+import MyLoading from "@/components/loading";
 import { Row, Col, List, Breadcrumb, Affix } from "antd";
 import {
   CalendarOutlined,
@@ -50,11 +51,13 @@ export default function Detailed() {
   const [article, setArticle] = useState({});
 
   const getEpisodesDetail = async (id = "") => {
+    setPagination(true);
     await _get_episode_detail(id).then((data) => {
       if (data.status === 200) {
         setArticle(data.data);
       }
     });
+    setPagination(true);
   };
 
   useEffect(() => {
@@ -93,71 +96,75 @@ export default function Detailed() {
 
       <main>
         <BaseBg></BaseBg>
-        <Row className="comm-main" type="flex" justify="center">
-          <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
-            <div>
-              {/* 面包屑导航 */}
-              <div className="bread-div">
-                <Breadcrumb>
-                  <Breadcrumb.Item>
-                    <a href="/">首页</a>
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item>详情</Breadcrumb.Item>
-                  <Breadcrumb.Item>{article?.name??''}</Breadcrumb.Item>
-                </Breadcrumb>
-              </div>
+        {spinning ?
+          <MyLoading></MyLoading>
+          :
+          <Row className="comm-main" type="flex" justify="center">
+            <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
               <div>
-                <div className="detailed-title">{article?.name??''}</div>
-
-                <div className="list-icon center">
-                  <span>
-                    <CalendarOutlined />
-                    {moment(article?.createdAt??'').format("YYYY/MM/DD hh:mm:ss")}
-                  </span>
-                  <span>
-                    <HistoryOutlined />
-                    {moment(article?.updatedAt??"").format("YYYY/MM/DD hh:mm:ss")}
-                  </span>
-                  <span>
-                    <FolderOutlined />
-                    {article?.course?.name ?? "未知"}
-                  </span>
+                {/* 面包屑导航 */}
+                <div className="bread-div">
+                  <Breadcrumb>
+                    <Breadcrumb.Item>
+                      <a href="/">首页</a>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>详情</Breadcrumb.Item>
+                    <Breadcrumb.Item>{article?.name ?? ''}</Breadcrumb.Item>
+                  </Breadcrumb>
                 </div>
+                <div>
+                  <div className="detailed-title">{article?.name ?? ''}</div>
 
-                {/* markdown 解析 */}
-                <div
-                  className="detailed-content"
-                  dangerouslySetInnerHTML={{ __html: html }}
-                >
-                  {/* <ReactMarkdown
+                  <div className="list-icon center">
+                    <span>
+                      <CalendarOutlined />
+                      {moment(article?.createdAt ?? '').format("YYYY/MM/DD hh:mm:ss")}
+                    </span>
+                    <span>
+                      <HistoryOutlined />
+                      {moment(article?.updatedAt ?? "").format("YYYY/MM/DD hh:mm:ss")}
+                    </span>
+                    <span>
+                      <FolderOutlined />
+                      {article?.course?.name ?? "未知"}
+                    </span>
+                  </div>
+
+                  {/* markdown 解析 */}
+                  <div
+                    className="detailed-content"
+                    dangerouslySetInnerHTML={{ __html: html }}
+                  >
+                    {/* <ReactMarkdown
                     children={article.article_content}
                     escapeHtml={false}
                   /> */}
+                  </div>
                 </div>
               </div>
-            </div>
-          </Col>
-          <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
-            {/* 广告组件 */}
-            {/* 站长介绍组件 */}
-            <Author></Author>
-            <Advert></Advert>
-            <Affix offsetTop={60}>
-              <div>
-                {/* 文章目录 */}
-                <div className="detailed-nav comm-box">
-                  <div className="nav-title">文章目录</div>
-                  {/* <MarkNav
+            </Col>
+            <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
+              {/* 广告组件 */}
+              {/* 站长介绍组件 */}
+              <Author></Author>
+              <Advert></Advert>
+              <Affix offsetTop={60}>
+                <div>
+                  {/* 文章目录 */}
+                  <div className="detailed-nav comm-box">
+                    <div className="nav-title">文章目录</div>
+                    {/* <MarkNav
                   className="article-menu"
                   source={articleProps.article_content}
                   ordered={false}
                 /> */}
-                  <div className="toc-list">{tocify && tocify.render()}</div>
+                    <div className="toc-list">{tocify && tocify.render()}</div>
+                  </div>
                 </div>
-              </div>
-            </Affix>
-          </Col>
-        </Row>
+              </Affix>
+            </Col>
+          </Row>
+        }
       </main>
 
       <Footer></Footer>

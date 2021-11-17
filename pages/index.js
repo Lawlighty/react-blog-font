@@ -8,9 +8,10 @@ import Author from '../components/author'
 import Advert from '../components/advert'
 import RightWindow from "../components/right-window";
 import Footer from "../components/footer";
+import MyLoading from "@/components/loading";
 import LabelTag from "@/components/label-tag";
 import BeautifulSoup from "@/components/beautiful-soup";
-import { Row, Col, List, Tag, Image, Pagination } from "antd";
+import { Row, Col, List, Tag, Image, Pagination, Spin } from "antd";
 import {
   CalendarOutlined,
   FolderOutlined,
@@ -37,14 +38,17 @@ const initPaging = {
 
 export default function Home({ myList }) {
   const [mylist, setMylist] = useState(myList);
+  const [spinning, setSpinning] = useState(false);
   const [pagination, setPagination] = useState(initPaging);
 
   const router = useRouter();
-    const getDocumentsList = async (nowpaginatio = {}) => {
+  const getDocumentsList = async (nowpaginatio = {}) => {
+      setSpinning(true);
       const query = {
         limit: nowpaginatio.pageSize || pagination.pageSize,
         page: nowpaginatio.current || pagination.current,
       };
+    
       await _get_courses(JSON.stringify(query)).then((data) => {
         if (data.status === 200) {
           const n_pagination = {
@@ -53,10 +57,10 @@ export default function Home({ myList }) {
             total: data.data.total,
           };
           setPagination({ ...n_pagination });
-          console.log("_get_courses", data.data.data);
           setMylist(data.data.data);
         }
       });
+    setSpinning(false);
     };
   
    const onChangePage = (page) => {
@@ -86,7 +90,6 @@ export default function Home({ myList }) {
   }, []);
 
   const courseOnClickHandel = (e, item) => {
-    console.log("courseOnClickHandel", item);
     if (item?.episodes?.length == 1) {
       // 直接跳转到改课时详情
       router.push(`/detailed/${item.episodes[0]}`);
@@ -107,6 +110,9 @@ export default function Home({ myList }) {
 
       <main>
         <BaseBg></BaseBg>
+        {/* {spinning ?
+          <MyLoading></MyLoading>
+          : */}
         <Row className="comm-main" type="flex" justify="center">
           <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
             <List
@@ -139,14 +145,14 @@ export default function Home({ myList }) {
                   <div className="list-title">
                     {/* <Link href={{ pathname: "/detailed/" + item._id }}> */}
                     {/* <Link href={{ pathname: "/course/" + item._id }}> */}
-                      <a
-                        className="hvr-skew-forward"
-                        onClick={(e) => {
-                          courseOnClickHandel(e, item);
-                        }}
-                      >
-                        {item.name}
-                      </a>
+                    <a
+                      className="hvr-skew-forward"
+                      onClick={(e) => {
+                        courseOnClickHandel(e, item);
+                      }}
+                    >
+                      {item.name}
+                    </a>
                     {/* </Link> */}
                     {item?.category?.name && (
                       <LabelTag tags={item.category?.name}></LabelTag>
@@ -188,6 +194,7 @@ export default function Home({ myList }) {
             <Advert></Advert>
           </Col>
         </Row>
+        {/* } */}
       </main>
       <RightWindow
         showFunc={true}

@@ -7,6 +7,7 @@ import BaseBg from "@/components/base-bg";
 import Author from "../../components/author";
 import Advert from "../../components/advert";
 import Footer from "../../components/footer";
+import MyLoading from "@/components/loading";
 import LabelTag from "@/components/label-tag";
 import { Row, Col, List, Breadcrumb, Tag, Pagination } from "antd";
 import {
@@ -27,16 +28,18 @@ const initPaging = {
 };
 
 export default function EpisodesList() {
-  const router = useRouter();
-  const [pagination, setPagination] = useState(initPaging);
-  const [mylist, setMylist] = useState([]);
-  const [crrentNav, setCrrentNav] = useState([]);
-  const headerRef = useRef(null);
+    const router = useRouter();
+    const [spinning, setSpinning] = useState(false);
+    const [pagination, setPagination] = useState(initPaging);
+    const [mylist, setMylist] = useState([]);
+    const [crrentNav, setCrrentNav] = useState([]);
+    const headerRef = useRef(null);
 //   useEffect(() => {
 //     setMylist(articleListProps);
 //   });
     
-    const getEpisodesList = async (nowpaginatio = {},course_id='') => {
+    const getEpisodesList = async (nowpaginatio = {}, course_id = '') => {
+        setPagination(true);
         const query = {
           limit: nowpaginatio.pageSize || pagination.pageSize,
           page: nowpaginatio.current || pagination.current,
@@ -55,6 +58,7 @@ export default function EpisodesList() {
             setMylist(data.data.data);
           }
         });
+        setPagination(false);
     };
 
     const onChangePage = (page) => {
@@ -80,65 +84,69 @@ export default function EpisodesList() {
 
       <main>
         <BaseBg></BaseBg>
-        <Row className="comm-main" type="flex" justify="center">
-          <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
-            <div>
-              {/* 面包屑导航 */}
-              <div className="bread-div">
-                <Breadcrumb>
-                  <Breadcrumb.Item>
-                    <a href="/">首页</a>
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item>{crrentNav?.typeName || ""}</Breadcrumb.Item>
-                </Breadcrumb>
-              </div>
+        {/* {spinning ?
+            <MyLoading></MyLoading>
+            : */}
+            <Row className="comm-main" type="flex" justify="center">
+                <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
+                    <div>
+                        {/* 面包屑导航 */}
+                        <div className="bread-div">
+                            <Breadcrumb>
+                                <Breadcrumb.Item>
+                                    <a href="/">首页</a>
+                                </Breadcrumb.Item>
+                                <Breadcrumb.Item>{crrentNav?.typeName || ""}</Breadcrumb.Item>
+                            </Breadcrumb>
+                        </div>
 
-              <List
-                itemLayout="vertical"
-                dataSource={mylist}
-                renderItem={(item) => (
-                  <List.Item>
-                    <div className="list-title">
-                      <Link href={{ pathname: "/detailed/" + item._id }}>
-                        <a className="hvr-skew-forward">{item.name}</a>
-                      </Link>
+                        <List
+                            itemLayout="vertical"
+                            dataSource={mylist}
+                            renderItem={(item) => (
+                                <List.Item>
+                                    <div className="list-title">
+                                        <Link href={{ pathname: "/detailed/" + item._id }}>
+                                            <a className="hvr-skew-forward">{item.name}</a>
+                                        </Link>
+                                    </div>
+                                    <div className="list-icon">
+                                        <span>
+                                            <CalendarOutlined />
+                                            {moment(item.createdAt).format("YYYY/MM/DD hh:mm:ss")}
+                                        </span>
+                                        <span>
+                                            <HistoryOutlined />
+                                            {moment(item.updatedAt).format("YYYY/MM/DD hh:mm:ss")}
+                                        </span>
+                                        <span>
+                                            <FolderOutlined /> {item?.course?.name ?? "未知"}
+                                        </span>
+                                        {/* <span>
+                <FireOutlined /> {item.view_count}人
+                </span> */}
+                                    </div>
+                                    <div className="list-context">{item.introduce}</div>
+                                </List.Item>
+                            )}
+                        />
+                        <Pagination
+                            current={pagination.current}
+                            total={pagination.total || 10}
+                            onChange={onChangePage}
+                            defaultPageSize={pagination.pageSize}
+                            style={{ textAlign: "center", marginTop: 20 }}
+                        />
                     </div>
-                    <div className="list-icon">
-                      <span>
-                        <CalendarOutlined />
-                        {moment(item.createdAt).format("YYYY/MM/DD hh:mm:ss")}
-                      </span>
-                      <span>
-                        <HistoryOutlined />
-                        {moment(item.updatedAt).format("YYYY/MM/DD hh:mm:ss")}
-                      </span>
-                      <span>
-                        <FolderOutlined /> {item?.course?.name ?? "未知"}
-                      </span>
-                      {/* <span>
-                        <FireOutlined /> {item.view_count}人
-                      </span> */}
-                    </div>
-                    <div className="list-context">{item.introduce}</div>
-                  </List.Item>
-                )}
-              />
-              <Pagination
-                current={pagination.current}
-                total={pagination.total || 10}
-                onChange={onChangePage}
-                defaultPageSize={pagination.pageSize}
-                style={{ textAlign: "center", marginTop: 20 }}
-              />
-            </div>
-          </Col>
-          <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
-            {/* 站长介绍组件 */}
-            <Author></Author>
-            {/* 广告组件 */}
-            <Advert></Advert>
-          </Col>
-        </Row>
+                </Col>
+                <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
+                    {/* 站长介绍组件 */}
+                    <Author></Author>
+                    {/* 广告组件 */}
+                    <Advert></Advert>
+                </Col>
+            </Row>
+        {/* } */}
       </main>
 
       <Footer></Footer>

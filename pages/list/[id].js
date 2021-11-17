@@ -7,6 +7,7 @@ import BaseBg from "@/components/base-bg";
 import Author from "../../components/author";
 import Advert from "../../components/advert";
 import Footer from "../../components/footer";
+import MyLoading from "@/components/loading";
 import LabelTag from "@/components/label-tag";
 import { Row, Col, List, Breadcrumb, Tag, Pagination } from "antd";
 import {
@@ -28,12 +29,14 @@ const initPaging = {
 
 export default function CoursesList() {
   const router = useRouter();
+  const [spinning, setSpinning] = useState(false);
   const [pagination, setPagination] = useState(initPaging);
   const [mylist, setMylist] = useState([]);
   const [crrentNav, setCrrentNav] = useState([]);
   const headerRef = useRef(null);
 
   const getCoursesList = async (nowpaginatio = {}, category_id = "") => {
+    setSpinning(true);
     const query = {
       limit: nowpaginatio.pageSize || pagination.pageSize,
       page: nowpaginatio.current || pagination.current,
@@ -53,6 +56,7 @@ export default function CoursesList() {
         setMylist(data.data.data);
       }
     });
+    setSpinning(false);
   };
 
   const onChangePage = (page) => {
@@ -87,89 +91,93 @@ export default function CoursesList() {
 
       <main>
         <BaseBg></BaseBg>
-        <Row className="comm-main" type="flex" justify="center">
-          <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
-            <div>
-              {/* 面包屑导航 */}
-              <div className="bread-div">
-                <Breadcrumb>
-                  <Breadcrumb.Item>
-                    <a href="/">首页</a>
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item>{crrentNav?.typeName || ""}</Breadcrumb.Item>
-                </Breadcrumb>
-              </div>
+        {/* {spinning ?
+          <MyLoading></MyLoading>
+          : */}
+          <Row className="comm-main" type="flex" justify="center">
+            <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
+              <div>
+                {/* 面包屑导航 */}
+                <div className="bread-div">
+                  <Breadcrumb>
+                    <Breadcrumb.Item>
+                      <a href="/">首页</a>
+                    </Breadcrumb.Item>
+                    <Breadcrumb.Item>{crrentNav?.typeName || ""}</Breadcrumb.Item>
+                  </Breadcrumb>
+                </div>
 
-              <List
-                itemLayout="vertical"
-                dataSource={mylist}
-                renderItem={(item) => (
-                  <List.Item
-                    extra={
-                      <div className="cover-img-wrapper">
-                        {/* <Link
+                <List
+                  itemLayout="vertical"
+                  dataSource={mylist}
+                  renderItem={(item) => (
+                    <List.Item
+                      extra={
+                        <div className="cover-img-wrapper">
+                          {/* <Link
                       // href={{ pathname: "/course/" + item._id }}
                       > */}
+                          <a
+                            onClick={(e) => {
+                              courseOnClickHandel(e, item);
+                            }}
+                          >
+                            <img
+                              width={250}
+                              alt="封面"
+                              src={item.cover}
+                              className="cover-img"
+                            />
+                          </a>
+                          {/* </Link> */}
+                        </div>
+                      }
+                    >
+                      <div className="list-title">
+                        {/* <Link href={{ pathname: "/detailed/" + item.id }}> */}
                         <a
+                          className="hvr-skew-forward"
                           onClick={(e) => {
                             courseOnClickHandel(e, item);
                           }}
                         >
-                          <img
-                            width={250}
-                            alt="封面"
-                            src={item.cover}
-                            className="cover-img"
-                          />
+                          {item.name}
                         </a>
                         {/* </Link> */}
                       </div>
-                    }
-                  >
-                    <div className="list-title">
-                      {/* <Link href={{ pathname: "/detailed/" + item.id }}> */}
-                      <a
-                        className="hvr-skew-forward"
-                        onClick={(e) => {
-                          courseOnClickHandel(e, item);
-                        }}
-                      >
-                        {item.name}
-                      </a>
-                      {/* </Link> */}
-                    </div>
-                    <div className="list-icon">
-                      <span>
-                        <CalendarOutlined />
-                        {moment(item.createdAt).format("YYYY/MM/DD hh:mm:ss")}
-                      </span>
-                      <span>
-                        <FolderOutlined /> {item?.category?.name ?? "未知"}
-                      </span>
-                      <span>
-                        <FireOutlined />
-                      </span>
-                    </div>
-                    <div className="list-context">{item.introduce}</div>
-                  </List.Item>
-                )}
-              />
-              <Pagination
-                current={pagination.current}
-                total={pagination.total || 10}
-                onChange={onChangePage}
-                defaultPageSize={pagination.pageSize}
-                style={{ textAlign: "center", marginTop: 20 }}
-              />
-            </div>
-          </Col>
-          <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
-            {/* 站长介绍组件 */}
-            <Author></Author>
-            {/* 广告组件 */}
-            <Advert></Advert>
-          </Col>
-        </Row>
+                      <div className="list-icon">
+                        <span>
+                          <CalendarOutlined />
+                          {moment(item.createdAt).format("YYYY/MM/DD hh:mm:ss")}
+                        </span>
+                        <span>
+                          <FolderOutlined /> {item?.category?.name ?? "未知"}
+                        </span>
+                        <span>
+                          <FireOutlined />
+                        </span>
+                      </div>
+                      <div className="list-context">{item.introduce}</div>
+                    </List.Item>
+                  )}
+                />
+                <Pagination
+                  current={pagination.current}
+                  total={pagination.total || 10}
+                  onChange={onChangePage}
+                  defaultPageSize={pagination.pageSize}
+                  style={{ textAlign: "center", marginTop: 20 }}
+                />
+              </div>
+            </Col>
+            <Col className="comm-right" xs={0} sm={0} md={7} lg={5} xl={144}>
+              {/* 站长介绍组件 */}
+              <Author></Author>
+              {/* 广告组件 */}
+              <Advert></Advert>
+            </Col>
+          </Row>
+        {/* } */}
       </main>
 
       <Footer></Footer>
