@@ -85,10 +85,11 @@ export default function Home({ myList }) {
     getDocumentsList({});
   }, []);
 
-  const courseOnClickHandel = (e,item) => {
+  const courseOnClickHandel = (e, item) => {
+    console.log("courseOnClickHandel", item);
     if (item?.episodes?.length == 1) {
       // 直接跳转到改课时详情
-      router.push(`/detailed/${item.episodes[0]._id}`);
+      router.push(`/detailed/${item.episodes[0]}`);
     } else {
       router.push(`/course/${item._id}`);
     }

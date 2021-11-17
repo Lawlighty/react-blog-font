@@ -69,7 +69,7 @@ export default function CoursesList() {
   const courseOnClickHandel = (e, item) => {
     if (item?.episodes?.length == 1) {
       // 直接跳转到改课时详情
-      router.push(`/detailed/${item.episodes[0]._id}`);
+      router.push(`/detailed/${item.episodes[0]}`);
     } else {
       router.push(`/course/${item._id}`);
     }
