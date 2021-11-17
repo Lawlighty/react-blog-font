@@ -11,7 +11,7 @@ export default function RightWindow({
   showService,
 }) {
   return (
-    <>
+    <div className="right-window-wrapper">
       {/* 是否展示功能 */}
       {showFunc ? (
         <div className="func_div">
@@ -75,6 +75,6 @@ export default function RightWindow({
       <BackTop>
         <UpOutlined className="toTop" />
       </BackTop>
-    </>
+    </div>
   );
 }
