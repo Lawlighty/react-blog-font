@@ -158,7 +158,7 @@ export default function CoursesList() {
                         <FolderOutlined /> {item?.category?.name ?? "未知"}
                       </span>
                       <span>
-                        <FireOutlined />
+                        <span>{item.stick && <FireOutlined />}</span>
                       </span>
                     </div>
                     <div className="list-context">{item.introduce}</div>
