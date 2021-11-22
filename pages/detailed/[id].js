@@ -97,10 +97,6 @@ export default function Detailed() {
 
       <main>
         <BaseBg></BaseBg>
-        {/* {spinning ? (
-          // <MyLoading></MyLoading>
-          <Skeleton active /> */}
-        ) : (
         <Row className="comm-main" type="flex" justify="center">
           <Col className="comm-left" xs={24} sm={24} md={16} lg={18} xl={14}>
             <div>
@@ -170,7 +166,6 @@ export default function Detailed() {
             </Affix>
           </Col>
         </Row>
-        ){/* // } */}
       </main>
 
       <Footer></Footer>
